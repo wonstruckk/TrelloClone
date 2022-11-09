@@ -156,6 +156,7 @@ function Coin() {
   //url을 키로 삼았음. = coinId:string
   //key를 coinId로 못한이유는 고유한값이 되어야 하는데 두개라서 그럼.
   //첫번째 키가 카테고리역할을 하고 두번째 키가 고유한 값을 가짐.("info",coinId)
+  //리턴값도 같아서 이름을 각각 사용방향에 맞게 바꾸어줌
   const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
     ["info", coinId],
     () => fetchCoinInfo(coinId!)
@@ -229,7 +230,6 @@ function Coin() {
               <Link to={`/${coinId}/price`}> Price </Link>
             </Tab>
           </Tabs>
-
           <Outlet />
         </>
       )}

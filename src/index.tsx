@@ -1,22 +1,23 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ThemeProvider } from "styled-components";
-import { theme } from "./theme";
+
 import App from "./App";
+import { RecoilRoot } from "recoil";
 
 const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+// recoil은 작은 규모의 프로젝트에 어울린다. 검색해보자.
 root.render(
   <>
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
+    <RecoilRoot>
+      <QueryClientProvider client={queryClient}>
         <App />
-      </ThemeProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
+    </RecoilRoot>
   </>
 );
 

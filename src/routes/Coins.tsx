@@ -2,8 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { fetchCoins } from "../api";
+import { isDarkAtom } from "../atmos";
 
 const Container = styled.div`
   padding: 0px 20px;
@@ -24,7 +26,7 @@ const CoinsList = styled.ul`
 
 const Coin = styled.li`
   background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  color: ${(props) => props.theme.textColor};
   padding: 20px;
   border-radius: 15px;
   margin-bottom: 10px;
@@ -68,9 +70,15 @@ interface ICoin {
 }
 
 function Coins() {
-  //reactquery keeps data
+  //same As react setState.
+  const setDarkAtom = useSetRecoilState(isDarkAtom);
+  console.log(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
+  //reactquery keeps data -> 캐싱으로 저장을 한다. 로딩화면 안나옴. 한결빠름.
   const { isLoading, data } = useQuery<ICoin[]>(["allCoins"], fetchCoins);
-  console.log(data);
+  //isloading = fetcher함수가 로딩중인지 알려주고
+  //Fetcher함수 끝나면 그 데이터를 data에다가 집어넣어서 데이터에 접근함.
+
   // const [coins, setCoins] = useState<CoinInterface[]>([]);
   // const [loading, setLoading] = useState(true);
 
@@ -88,6 +96,7 @@ function Coins() {
     <Container>
       <Header>
         <Title>코인</Title>
+        <button onClick={toggleDarkAtom}>Toggle Mode</button>
       </Header>
       {isLoading ? (
         <Loader>Loading..</Loader>

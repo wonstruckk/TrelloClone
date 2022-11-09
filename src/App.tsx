@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import styled, { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle, ThemeProvider } from "styled-components";
 import Router from "./Router";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { darkTheme, lightTheme } from "./theme";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./atmos";
 
 const GlobalStyle = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -67,11 +70,19 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  const isDark = useRecoilValue(isDarkAtom);
+  console.log(isDark);
+
+  //App -> toggleDark to Router, -> Router to Coins propsdrilling일어남.
+  //const [isDark, setIsDark] = useState(false);
+  //const toggleDark = () => setIsDark((current) => !current);
   return (
     <>
-      <GlobalStyle />
-      <Router />
-      <ReactQueryDevtools initialIsOpen={true} />
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <GlobalStyle />
+        <Router />
+        <ReactQueryDevtools initialIsOpen={true} />
+      </ThemeProvider>
     </>
   );
 }
